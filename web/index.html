@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>OuEstLeNuge</title>
+
+	<style type="text/css">
+
+		body {
+			text-align: center;
+		}
+
+        .header {
+            margin-left:auto;
+            margin-right:auto;
+            width:1000px;
+            height:300px;
+            background:red;
+        }
+
+        h1 {
+            display:inline;
+            font-family: sans-serif;
+            font-size:48pt;
+            margin-left:auto;
+            margin-right:auto;
+        }
+
+	    #map {
+            width:1024px;
+            height:768px;
+            margin-left:auto;
+            margin-right:auto;
+	    }
+
+	</style>
+    <script src="Scripts/mapsapi.js"></script>
+    <script src="Scripts/gmaps.js" ></script>
+
+</head>
+<body>
+    <h1>Ou est le Nuge?</h1>
+    <h2 id="last-spotted">We don't know where nuge is right now :(</h2>
+    <div id="map">Loading...</div>
+    <script>
+        var request = new XMLHttpRequest();
+        var isAsynchronous = true;
+        var url = 'http://ouestlenuge.apphb.com/location'; //location relative to current webpage
+        request.open('GET', url, isAsynchronous);
+
+        request.onload = function (xmlEvent) {
+            var resp = JSON.parse(request.response);
+            var map = new GMaps({
+                div: '#map',
+                lat: resp.Location.Coordinates.Latitude,
+                lng: resp.Location.Coordinates.Longitude,
+                zoom:12
+            })
+
+            map.addMarker({
+                lat: resp.Location.Coordinates.Latitude,
+                lng: resp.Location.Coordinates.Longitude,
+                infoWindow: {
+                    content: resp.LastTweet
+                },
+                icon: "Images/lenuge3.png"
+            });
+
+            document.getElementById("last-spotted").innerHTML = "Last Spotted at: " + resp.Date;
+            //document.getElementById("last-tweet").innerHTML = "Saying: \"" + resp.LastTweet + "\"";
+        };
+        request.send();
+
+
+    </script>
+</body>
+</html>
+

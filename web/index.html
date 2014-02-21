@@ -143,7 +143,7 @@
 
 			map.fitZoom();
 
-            document.getElementById("last-spotted").innerHTML = "Last updated <br class=\"only-at-tiny-sizes\">" + resp.Date;
+            document.getElementById("last-spotted").innerHTML = "Last updated <br class=\"only-at-tiny-sizes\">" + resp[resp.length-1].Date;
             //document.getElementById("last-tweet").innerHTML = "Saying: \"" + resp.LastTweet + "\"";
         };
         request.send();

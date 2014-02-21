@@ -99,8 +99,8 @@
     <script>
         var request = new XMLHttpRequest();
         var isAsynchronous = true;
-        var url = 'http://ouestlenuge.apphb.com/locations';
-        //var url= "http://localhost:12008/locations";
+        //var url = 'http://ouestlenuge.apphb.com/locations';
+        var url= "http://localhost:12008/locations";
         request.open('GET', url, isAsynchronous);
 
         request.onload = function (xmlEvent) {
@@ -143,7 +143,7 @@
 
 			map.fitZoom();
 
-            document.getElementById("last-spotted").innerHTML = "Last updated <br class=\"only-at-tiny-sizes\">" + resp.Date;
+            document.getElementById("last-spotted").innerHTML = "Last updated <br class=\"only-at-tiny-sizes\">" + resp[resp.length-1].Date;
             //document.getElementById("last-tweet").innerHTML = "Saying: \"" + resp.LastTweet + "\"";
         };
         request.send();

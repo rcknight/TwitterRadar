@@ -99,26 +99,49 @@
     <script>
         var request = new XMLHttpRequest();
         var isAsynchronous = true;
-        var url = 'http://ouestlenuge.apphb.com/location'; //location relative to current webpage
+        var url = 'http://ouestlenuge.apphb.com/locations';
+        //var url= "http://localhost:12008/locations";
         request.open('GET', url, isAsynchronous);
 
         request.onload = function (xmlEvent) {
             var resp = JSON.parse(request.response);
             var map = new GMaps({
                 div: '#map',
-                lat: resp.Location.Coordinates.Latitude,
-                lng: resp.Location.Coordinates.Longitude,
+                lat: resp[resp.length -1].Location.Coordinates.Latitude,
+                lng: resp[resp.length -1].Location.Coordinates.Longitude,
                 zoom:12
             })
 
-            map.addMarker({
-                lat: resp.Location.Coordinates.Latitude,
-                lng: resp.Location.Coordinates.Longitude,
-                infoWindow: {
-                    content: resp.LastTweet
-                },
-                icon: "Images/lenuge3.png"
-            });
+            var path = [];
+
+            for(var i = 0; i < resp.length; i++)
+            {
+            	path.push([resp[i].Location.Coordinates.Latitude, resp[i].Location.Coordinates.Longitude]);
+
+            	var marker = {
+	                lat: resp[i].Location.Coordinates.Latitude,
+	                lng: resp[i].Location.Coordinates.Longitude,
+	                infoWindow: {
+	                    content: "<p>" + resp[i].LastTweet + "</p><p>" + resp[i].Date + "</p>"
+	                },
+            	}
+
+            	if(i === resp.length-1)
+            	{
+            		marker.icon = "Images/lenuge3.png";
+            	}
+
+            	map.addMarker(marker);	
+            }
+
+            map.drawPolyline({
+			  path: path,
+			  strokeColor: '#131540',
+			  strokeOpacity: 0.6,
+			  strokeWeight: 6
+			});
+
+			map.fitZoom();
 
             document.getElementById("last-spotted").innerHTML = "Last updated <br class=\"only-at-tiny-sizes\">" + resp.Date;
             //document.getElementById("last-tweet").innerHTML = "Saying: \"" + resp.LastTweet + "\"";

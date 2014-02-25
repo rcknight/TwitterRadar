@@ -17,7 +17,7 @@ namespace TwitterRadar.Server
                     var tweets = service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions()
                         {
                             ContributorDetails = true,
-                            Count = 30,
+                            Count = 200,
                             ExcludeReplies = false,
                             IncludeRts = true,
                             ScreenName = "jen20"

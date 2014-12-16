@@ -99,7 +99,11 @@
     <script>
         var request = new XMLHttpRequest();
         var isAsynchronous = true;
-        var url = 'http://ouestlenuge.apphb.com/locations';
+        if(window.location.hash === undefined || window.location.hash === "")
+        {
+        	window.location.hash = "jen20";
+        }
+        var url = 'http://ouestlenuge.apphb.com/locations/' + window.location.hash;
         //var url= "http://localhost:12008/locations";
         request.open('GET', url, isAsynchronous);
 

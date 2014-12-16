@@ -14,7 +14,7 @@ namespace TwitterRadar.Server
                 {
                     var service = new TwitterService(ConfigurationManager.AppSettings["TWITTER_CONSUMER_KEY"], ConfigurationManager.AppSettings["TWITTER_CONSUMER_SECRET"]);
                     service.AuthenticateWith(ConfigurationManager.AppSettings["TWITTER_ACCESS_TOKEN"], ConfigurationManager.AppSettings["TWITTER_ACCESS_TOKEN_SECRET"]);
-                    string user = Request.Query["user"].ToString();
+                    string user = paramaters.user.ToString();
                     user.Replace("#", "");
 
                     var tweets = service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions()

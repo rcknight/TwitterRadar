@@ -10,7 +10,7 @@ namespace TwitterRadar.Server
     {
         public IndexModule()
         {
-            Get["/locations", true] = async (ct, paramaters) =>
+            Get["/locations/{user}", true] = async (ct, paramaters) =>
                 {
                     var service = new TwitterService(ConfigurationManager.AppSettings["TWITTER_CONSUMER_KEY"], ConfigurationManager.AppSettings["TWITTER_CONSUMER_SECRET"]);
                     service.AuthenticateWith(ConfigurationManager.AppSettings["TWITTER_ACCESS_TOKEN"], ConfigurationManager.AppSettings["TWITTER_ACCESS_TOKEN_SECRET"]);
@@ -21,7 +21,7 @@ namespace TwitterRadar.Server
                             Count = 100,
                             ExcludeReplies = false,
                             IncludeRts = true,
-                            ScreenName = "jen20"
+                            ScreenName = this.Request.Query["user"]
                         }).ToList();
                         
                     var tweetsWithLocations = tweets.Where(t => t.Location != null).ToList().OrderBy(t => t.CreatedDate);

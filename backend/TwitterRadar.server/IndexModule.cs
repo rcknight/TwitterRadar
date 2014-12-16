@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using Spring.Social.Twitter.Api;
-using Spring.Social.Twitter.Api.Impl;
 using TweetSharp;
 using Nancy;
 

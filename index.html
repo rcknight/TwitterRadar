@@ -153,6 +153,7 @@
 	            //document.getElementById("last-tweet").innerHTML = "Saying: \"" + resp.lastTweet + "\"";
 	        };
 	        request.send();
+	        window.onhashchange = load;
     	}
     	load();
     </script>

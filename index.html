@@ -151,9 +151,10 @@
 
 	            document.getElementById("last-spotted").innerHTML = "Last updated <br class=\"only-at-tiny-sizes\">" + resp[resp.length-1].date;
 	            //document.getElementById("last-tweet").innerHTML = "Saying: \"" + resp.lastTweet + "\"";
+	            window.onhashchange = load;
 	        };
 	        request.send();
-	        window.onhashchange = load;
+
     	}
     	load();
     </script>

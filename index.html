@@ -107,8 +107,8 @@
             var resp = JSON.parse(request.response);
             var map = new GMaps({
                 div: '#map',
-                lat: resp[resp.length -1].Location.Coordinates.Latitude,
-                lng: resp[resp.length -1].Location.Coordinates.Longitude,
+                lat: resp[resp.length -1].location.coordinates.latitude,
+                lng: resp[resp.length -1].location.coordinates.longitude,
                 zoom:12
             })
 
@@ -116,13 +116,13 @@
 
             for(var i = 0; i < resp.length; i++)
             {
-            	path.push([resp[i].Location.Coordinates.Latitude, resp[i].Location.Coordinates.Longitude]);
+            	path.push([resp[i].location.coordinates.latitude, resp[i].location.coordinates.longitude]);
 
             	var marker = {
-	                lat: resp[i].Location.Coordinates.Latitude,
-	                lng: resp[i].Location.Coordinates.Longitude,
+	                lat: resp[i].location.coordinates.latitude,
+	                lng: resp[i].location.coordinates.longitude,
 	                infoWindow: {
-	                    content: "<p>" + resp[i].LastTweet + "</p><p>" + resp[i].Date + "</p>"
+	                    content: "<p>" + resp[i].lastTweet + "</p><p>" + resp[i].date + "</p>"
 	                },
             	}
 
@@ -143,8 +143,8 @@
 
 			map.fitZoom();
 
-            document.getElementById("last-spotted").innerHTML = "Last updated <br class=\"only-at-tiny-sizes\">" + resp[resp.length-1].Date;
-            //document.getElementById("last-tweet").innerHTML = "Saying: \"" + resp.LastTweet + "\"";
+            document.getElementById("last-spotted").innerHTML = "Last updated <br class=\"only-at-tiny-sizes\">" + resp[resp.length-1].date;
+            //document.getElementById("last-tweet").innerHTML = "Saying: \"" + resp.lastTweet + "\"";
         };
         request.send();
     </script>

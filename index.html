@@ -103,7 +103,7 @@
         {
         	window.location.hash = "jen20";
         }
-        var url = 'http://ouestlenuge.apphb.com/locations/' + window.location.hash;
+        var url = 'http://ouestlenuge.apphb.com/locations/' + window.location.hash.substring(1);
         //var url= "http://localhost:12008/locations";
         request.open('GET', url, isAsynchronous);
 

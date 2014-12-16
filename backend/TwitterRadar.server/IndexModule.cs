@@ -10,7 +10,7 @@ namespace TwitterRadar.Server
     {
         public IndexModule()
         {
-            Get["/locations/{user}", true] = async (ct, paramaters) =>
+            Get["/locations/{user}", true] = async (paramaters, ct) =>
                 {
                     var service = new TwitterService(ConfigurationManager.AppSettings["TWITTER_CONSUMER_KEY"], ConfigurationManager.AppSettings["TWITTER_CONSUMER_SECRET"]);
                     service.AuthenticateWith(ConfigurationManager.AppSettings["TWITTER_ACCESS_TOKEN"], ConfigurationManager.AppSettings["TWITTER_ACCESS_TOKEN_SECRET"]);

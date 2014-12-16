@@ -14,6 +14,8 @@ namespace TwitterRadar.Server
                 {
                     var service = new TwitterService(ConfigurationManager.AppSettings["TWITTER_CONSUMER_KEY"], ConfigurationManager.AppSettings["TWITTER_CONSUMER_SECRET"]);
                     service.AuthenticateWith(ConfigurationManager.AppSettings["TWITTER_ACCESS_TOKEN"], ConfigurationManager.AppSettings["TWITTER_ACCESS_TOKEN_SECRET"]);
+                    string user = Request.Query["user"].ToString();
+                    user.Replace("#", "");
 
                     var tweets = service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions()
                         {
@@ -21,7 +23,7 @@ namespace TwitterRadar.Server
                             Count = 100,
                             ExcludeReplies = false,
                             IncludeRts = true,
-                            ScreenName = this.Request.Query["user"]
+                            ScreenName = user
                         }).ToList();
                         
                     var tweetsWithLocations = tweets.Where(t => t.Location != null).ToList().OrderBy(t => t.CreatedDate);
@@ -37,8 +39,6 @@ namespace TwitterRadar.Server
                             {
                                 new { Header = "Access-Control-Allow-Origin", Value="*" }
                             });
-                    
-                    return 404;
                 };
 
         }

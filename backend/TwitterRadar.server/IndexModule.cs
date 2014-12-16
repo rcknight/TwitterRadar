@@ -1,5 +1,8 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using Spring.Social.Twitter.Api;
+using Spring.Social.Twitter.Api.Impl;
 using TweetSharp;
 using Nancy;
 
@@ -9,21 +12,24 @@ namespace TwitterRadar.Server
     {
         public IndexModule()
         {
-            Get["/locations"] = (paramaters) =>
+            Get["/locations", true] = async (ct, paramaters) =>
                 {
-                    var service = new TwitterService(ConfigurationManager.AppSettings["TWITTER_CONSUMER_KEY"], ConfigurationManager.AppSettings["TWITTER_CONSUMER_SECRET"]);
-                    service.AuthenticateWith(ConfigurationManager.AppSettings["TWITTER_ACCESS_TOKEN"],ConfigurationManager.AppSettings["TWITTER_ACCESS_TOKEN_SECRET"]);
-
-                    var tweets = service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions()
+                    ITwitter twitter = new TwitterTemplate(ConfigurationManager.AppSettings["TWITTER_CONSUMER_KEY"], ConfigurationManager.AppSettings["TWITTER_CONSUMER_SECRET"], ConfigurationManager.AppSettings["TWITTER_ACCESS_TOKEN"],ConfigurationManager.AppSettings["TWITTER_ACCESS_TOKEN_SECRET"]);
+                    IList<Tweet> tweets = await twitter.TimelineOperations.GetUserTimelineAsync("rclarkson");
+                    
+                    tweets[0]
+                    /*var tweets = service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions()
                         {
                             ContributorDetails = true,
-                            Count = 200,
+                            Count = 100,
                             ExcludeReplies = false,
                             IncludeRts = true,
                             ScreenName = "jen20"
-                        }).Where(t => t.Location != null).ToList().OrderBy(t => t.CreatedDate);
-
-                    return Response.AsJson(tweets.Select(t => new
+                        }).ToList();
+                        
+                    var tweetsWithLocations = tweets.Where(t => t.Location != null).ToList().OrderBy(t => t.CreatedDate);
+                    *
+                    return Response.AsJson(tweetsWithLocations.Select(t => new
                             {
                                 LastTweet = t.TextAsHtml,
                                 Location = t.Location,
@@ -34,6 +40,8 @@ namespace TwitterRadar.Server
                             {
                                 new { Header = "Access-Control-Allow-Origin", Value="*" }
                             });
+                     * */
+                    return 404;
                 };
 
         }
